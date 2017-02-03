@@ -164,6 +164,12 @@ class Project:
         }
         write(os.path.join(self.out_dir, PACKAGE_PATH), json.dumps(package))
 
+    def copy_readme(self):
+        copy('README.md', self.out_dir)
+
+    def copy_license(self):
+        copy('LICENSE.md', self.out_dir)
+
 
 class Component:
     def __init__(self, name, file_path, content):
@@ -279,6 +285,11 @@ def write(filename, content):
         os.makedirs(d)
     with open(filename, 'w') as file:
         file.write(content)
+
+
+def copy(filename, out_dir):
+    with open(filename, "r") as file:
+        write(os.path.join(out_dir, filename), file.read())
 
 if __name__ == "__main__":
     p = Project()
