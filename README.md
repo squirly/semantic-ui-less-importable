@@ -15,7 +15,7 @@ npm install semantic-ui-less-importable
 
 The versions in npm track the semantic-ui versions.
 
-## Useage
+## Usage
 In a less file:
 ```less
 @import "../../node_modules/semantic-ui-less-importable/semantic";
@@ -29,10 +29,13 @@ Install python 3
 
 Install dependencies
 ```bash
-pip install -r requirelments.txt
+pip install -r requirements.txt
 ```
 
 ## Build
+The script targets the version of semantic specified in the version.py file.
+The script creates a npm package in the `dist` folder, containing the rewritten semantic less source.
+
 ```bash
 ./run.py
 ```
@@ -47,4 +50,11 @@ node_modules/.bin/lessc dist/semantic.less > dist/semantic.css
 And the this runs a smoke test of installation
 ```bash
 npm install ./dist
+```
+
+## Publish
+The rewritten source code can be published to npm.
+
+```
+cd dist && npm publish
 ```
