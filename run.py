@@ -199,7 +199,10 @@ class ThemeVariables:
         self.variable_renames = [(v, variable_rename(v)) for v in variables]
 
     def compiled_content(self, variable_renames):
-        return rename_variables_in_less_file(variable_renames, self.content)
+        renamed_content = rename_variables_in_less_file(variable_renames, self.content)
+        for (_, new_name) in variable_renames:
+            renamed_content = re.sub(r'@' + new_name + r': @' + new_name + r';\n',  '', renamed_content)
+        return renamed_content
 
     def file_path(self, theme_name):
         return os.path.join(THEMES_DIR, theme_name, self.path + '.' + VARIABLES_EXTENSION + '.' + LESS_EXTENSION)
