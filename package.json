@@ -11,7 +11,14 @@
     "url": "https://github.com/squirly/semantic-ui-less-importable/issues"
   },
   "scripts": {
-    "test": "lessc dist/semantic.less > semantic.css"
+    "postinstall": "pip install -r requirements.txt",
+    "clean": "rm -rf dist semantic.css",
+    "prebuild": "npm run clean",
+    "build": "./build.py",
+    "pretest": "npm run build",
+    "test": "lessc dist/semantic.less > semantic.css",
+    "prepublish": "npm run test",
+    "publish": "cd dist && npm publish"
   },
   "dependencies": {
     "less": "^2.7.3"

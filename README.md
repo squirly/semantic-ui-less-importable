@@ -29,7 +29,7 @@ Install python 3
 
 Install dependencies
 ```bash
-pip install -r requirements.txt
+npm install
 ```
 
 ## Build
@@ -37,7 +37,7 @@ The script targets the version of semantic specified in the version.py file.
 The script creates a npm package in the `dist` folder, containing the rewritten semantic less source.
 
 ```bash
-./run.py
+npm run build
 ```
 
 Output can be found in the `dist` folder.
@@ -52,5 +52,5 @@ npm run test
 The rewritten source code can be published to npm.
 
 ```
-cd dist && npm publish
+npm run publish
 ```
