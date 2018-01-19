@@ -45,11 +45,7 @@ Output can be found in the `dist` folder.
 ## Testing
 The following command runs a simple smoke test of the less
 ```bash
-node_modules/.bin/lessc dist/semantic.less > dist/semantic.css
-```
-And the this runs a smoke test of installation
-```bash
-npm install ./dist
+npm run test
 ```
 
 ## Publish

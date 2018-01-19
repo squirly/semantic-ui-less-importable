@@ -1,0 +1,19 @@
+{
+  "name": "semantic-ui-less-importable",
+  "version": "2.2.13",
+  "author": "Tyler Jones",
+  "title": "Semantic UI Less Importable",
+  "description": "An importable and overridable version of the Semantic-UI less",
+  "license": "MIT",
+  "homepage": "https://github.com/squirly/semantic-ui-less-importable#readme",
+  "repository": "github:squirly/semantic-ui-less-importable",
+  "bugs": {
+    "url": "https://github.com/squirly/semantic-ui-less-importable/issues"
+  },
+  "scripts": {
+    "test": "lessc dist/semantic.less > semantic.css"
+  },
+  "dependencies": {
+    "less": "^2.7.3"
+  }
+}
