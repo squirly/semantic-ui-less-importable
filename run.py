@@ -7,9 +7,6 @@ from zipfile import ZipFile
 
 import requests
 
-from version import VERSION
-
-DESCRIPTION = "An importable and overridable version of the Semantic-UI less"
 ARCHIVE_PATH = "http://github.com/Semantic-Org/Semantic-UI/archive/"
 ARCHIVE_EXTENSION = "zip"
 SRC_DIR = "src"
@@ -34,10 +31,12 @@ find_load_fonts = re.compile(r'\.loadFonts\(\);[\r\n ]+', re.MULTILINE)
 
 
 class Project:
-    def __init__(self, version=VERSION, out_dir=OUT_DIR):
-        self.version = version
+    def __init__(self, version=None, out_dir=OUT_DIR):
+        with open('package.json') as packageFile:
+            self.package = json.load(packageFile)
+        self.version = version or self.package['version']
         self.out_dir = out_dir
-        archive = os.path.join(ARCHIVE_PATH, version) + "." + ARCHIVE_EXTENSION
+        archive = os.path.join(ARCHIVE_PATH, self.version) + "." + ARCHIVE_EXTENSION
         response = requests.get(archive)
         self.zipfile = ZipFile(BytesIO(response.content))
         self.infos = self.zipfile.infolist()
@@ -111,7 +110,7 @@ class Project:
         semantic_import = decode(self.zipfile.read(file_path)).split('\n')
         imports = "\n".join([
             *semantic_import[0:9],
-            "  " + DESCRIPTION,
+            "  " + self.package["description"],
             "  Import this file, then import theme files, then override variables",
             *semantic_import[10:12],
             "/* Default Variables */",
@@ -146,22 +145,9 @@ class Project:
         return self.themes[DEFAULT_THEME][VARIABLES_EXTENSION][component.name].variable_renames
 
     def write_package(self):
-        package = {
-            "name": "semantic-ui-less-importable",
-            "version": self.version,
-            "author": "Tyler Jones",
-            "title": "Semantic UI Less Importable",
-            "description": DESCRIPTION,
-            "license": "MIT",
-            "homepage": "http:/github.com/squirly/semantic-ui-less-importable",
-            "repository": {
-                "type": "git",
-                "url": "git://github.com/squirly/semantic-ui-less-importable.git",
-            },
-            "bugs": {
-                "url": "https://github.com/squirly/semantic-ui-less-importable/issues",
-            },
-        }
+        packagePublishKeys = ["name", "author", "title", "description", "license", "homepage", "repository", "bugs"]
+        package = {key: self.package[key] for key in packagePublishKeys}
+        package["version"] = self.version
         write(os.path.join(self.out_dir, PACKAGE_PATH), json.dumps(package))
 
     def copy_readme(self):
