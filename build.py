@@ -227,6 +227,7 @@ def identity(x): return x
 def rename_variables_in_less_file(variable_renames, content):
     for (name, new_name) in variable_renames:
         content = re.sub(r'@' + name + r'([^A-Za-z])',  '@' + new_name + '\\1', content)
+        content = re.sub(r'@{' + name + r'}',  '@{' + new_name + '}', content)
     return content
 
 
